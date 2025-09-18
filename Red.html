@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redpogi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #fff;
+        }
+        
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 800px;
+            overflow: hidden;
+            padding: 30px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .social-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .social-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s, background 0.3s;
+            cursor: pointer;
+        }
+        
+        .social-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .social-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .social-name {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        
+        .facebook { color: #3b5998; }
+        .tiktok { color: #000000; }
+        .instagram { 
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .steam { color: #2a475e; }
+        .spotify { color: #1DB954; }
+        
+        .counter {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+        
+        .counter-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #ff7e5f;
+            margin: 10px 0;
+        }
+        
+        .counter-text {
+            font-size: 1.2rem;
+            color: #ddd;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .social-container {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .social-icon {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Redpogi</h1>
+            <p class="tagline">Oo pogi talaga ako</p>
+        </header>
+        
+        <div class="social-container">
+            <div class="social-card" onclick="visitLink('facebook')">
+                <div class="social-icon facebook">
+                    <i class="fab fa-facebook"></i>
+                </div>
+                <div class="social-name">Facebook</div>
+            </div>
+            
+            <div class="social-card" onclick="visitLink('tiktok')">
+                <div class="social-icon tiktok">
+                    <i class="fab fa-tiktok"></i>
+                </div>
+                <div class="social-name">TikTok</div>
+            </div>
+            
+            <div class="social-card" onclick="visitLink('instagram')">
+                <div class="social-icon instagram">
+                    <i class="fab fa-instagram"></i>
+                </div>
+                <div class="social-name">Instagram</div>
+            </div>
+            
+            <div class="social-card" onclick="visitLink('steam')">
+                <div class="social-icon steam">
+                    <i class="fab fa-steam"></i>
+                </div>
+                <div class="social-name">Steam</div>
+            </div>
+            
+            <div class="social-card" onclick="visitLink('spotify')">
+                <div class="social-icon spotify">
+                    <i class="fab fa-spotify"></i>
+                </div>
+                <div class="social-name">Spotify</div>
+            </div>
+        </div>
+        
+        <div class="counter">
+            <div class="counter-text">Visitors</div>
+            <div class="counter-number" id="visitor-count">0</div>
+            <div class="counter-text">Thank you for visiting!</div>
+        </div>
+        
+        <footer>
+            <p>Oo na talaga, pogi talaga ako</p>
+        </footer>
+    </div>
+
+    <script>
+        // Function to update visitor count
+        function updateCounter() {
+            // Check if visitor count exists in local storage
+            if (localStorage.getItem('visitorCount')) {
+                let count = parseInt(localStorage.getItem('visitorCount'));
+                count++;
+                localStorage.setItem('visitorCount', count);
+                document.getElementById('visitor-count').textContent = count;
+            } else {
+                // Initialize if it doesn't exist
+                localStorage.setItem('visitorCount', 1);
+                document.getElementById('visitor-count').textContent = 1;
+            }
+        }
+        
+        // Function to handle social link clicks
+        function visitLink(platform) {
+            let url;
+            
+            switch(platform) {
+                case 'facebook':
+                    url = 'https://www.facebook.com/redred.villena/';
+                    break;
+                case 'tiktok':
+                    url = 'https://www.tiktok.com/@aiizzen_1029?lang=en';
+                    break;
+                case 'instagram':
+                    url = 'https://www.instagram.com/aizeneenn/';
+                    break;
+                case 'steam':
+                    url = 'https://steamcommunity.com/id/gsdsddsfdsfdsfdfsdfsd/'; // Replace with your Steam URL
+                    break;
+                case 'spotify':
+                    url = 'https://open.spotify.com/user/21tiqgdgfqr2tc32gmbwlzany'; // Replace with your Spotify URL
+                    break;
+                default:
+                    return;
+            }
+            window.open(url, '_blank');
+        }
+        
+        // Initialize counter when page loads
+        window.onload = updateCounter;
+    </script>
+</body>
+</html>
